@@ -1,0 +1,11 @@
+/bin/
+/build/
+/target/
+.gradle/
+.settings/
+.idea
+.project
+.classpath
+secret-key.gpg
+gradle.properties
+dependency-reduced-pom.xml
