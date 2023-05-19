@@ -2,27 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.kamalyes</groupId>
     <artifactId>jmeter-influxdb-backend-listener</artifactId>
-    <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <version>2.0.0</version>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <jmeter.version>5.5</jmeter.version>
-        <influxdb.version>2.5</influxdb.version>
+        <influxdb.version>6.7.0</influxdb.version>
         <lombok.version>1.18.26</lombok.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
+        <maven-compiler.version>3.6.1</maven-compiler.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.5.1</maven-gpg-plugin.version>
         <maven-release-plugin.version>3.3.0</maven-release-plugin.version>
         <maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
         <maven-shade-plugin.version>3.3.0</maven-shade-plugin.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
     
     <name>Jmeter InfluxDB Backend Listener Client </name>
@@ -51,15 +50,44 @@
         <url>https://github.com/kamalyes/jmeter-influxdb-backend-listener.git</url>
     </scm>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+     <repositories>
         <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>maven-public</id>
+            <name>Nexus Repository</name>
+            <url>http://106.52.217.40:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-public</id>
+            <name>Nexus Plugin Repository</name>
+            <url>http://106.52.217.40:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+<!--项目分发信息，在执行mvn deploy后表示要发布的位置。有了这些信息就可以把网站部署到远程服务器或者把构件jar等部署到远程仓库。 -->
+    <distributionManagement>
+        <repository><!--部署项目产生的构件到远程仓库需要的信息 -->
+            <id>maven-releases</id><!-- 此处id和settings.xml的id保持一致 -->
+            <name>Nexus Release Repository</name>
+            <url>http://106.52.217.40:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository><!--构件的快照部署到哪里？如果没有配置该元素，默认部署到repository元素配置的仓库，参见distributionManagement/repository元素 -->
+            <id>maven-snapshots</id><!-- 此处id和settings.xml的id保持一致 -->
+            <name>Nexus Snapshot Repository</name>
+            <url>http://106.52.217.40:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <dependencies>
@@ -68,11 +96,11 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.influxdb/influxdb-client-java -->
         <dependency>
-            <groupId>org.influxdb</groupId>
-            <artifactId>influxdb-java</artifactId>
+            <groupId>com.influxdb</groupId>
+            <artifactId>influxdb-client-java</artifactId>
             <version>${influxdb.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.jmeter</groupId>
@@ -105,9 +133,10 @@
             <version>${commons-lang3.version}</version>
         </dependency>
     </dependencies>
-
+    
     <build>
         <plugins>
+            <!-- 源码插件 目前用于发布jar包到内网的时候连源码一起 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -161,7 +190,23 @@
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+             <plugin>
+                <!-- 打包插件 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <!--<configuration>-->
+                    <!--<useUniqueVersions>false</useUniqueVersions>-->
+                <!--</configuration>-->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -199,7 +244,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>org.influxdb:*</include>
+                                    <include>com.influxdb:*</include>
                                     <include>com.squareup.*:*</include>
                                     <include>org.msgpack:*</include>
                                     <include>com.google.guava:guava:*</include>

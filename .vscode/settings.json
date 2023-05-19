@@ -34,9 +34,16 @@
   "cSpell.userWords": ["antlr", "kamalyes"],
   "workbench.iconTheme": "vscode-icons",
   "terminal.integrated.defaultProfile.windows": "Command Prompt",
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.configuration.updateBuildConfiguration": "automatic",
   "cSpell.words": [
-    "jmeter"
+    "datasource",
+    "Dmaven",
+    "influxdata",
+    "javadoc",
+    "jmeter",
+    "kamalyes",
+    "Porcessing",
+    "timepicker"
   ],
   "java.compile.nullAnalysis.mode": "automatic"
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+<profiles>
+    <profile>
+      <id>development</id>
+      <!-- 构件的仓库 -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://106.52.217.40:8081</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+      <!-- 插件的仓库 -->
+     <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://106.52.217.40:8081</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+  <!-- 对于所有的pom,上边定义的id=development的profile都是活跃状态的 -->
+  <activeProfiles>
+    <activeProfile>development</activeProfile>
+  </activeProfiles>
+
+<!--nexus服务器,id为组仓库name-->
+<servers>
+  <server>
+    <id>maven-public</id>
+    <username>developer</username>
+    <password>developer</password>
+  </server>
+  <server>
+    <id>maven-releases</id>  <!--对应pom.xml的id=releases的仓库-->
+    <username>developer</username>
+    <password>developer</password>
+  </server>
+  <server>
+    <id>maven-snapshots</id> <!--对应pom.xml中id=snapshots的仓库-->
+    <username>developer</username>
+    <password>developer</password>
+  </server>
+</servers>
+
+<!--仓库组的url地址，id和name可以写组仓库name，mirrorOf的值设置为central-->
+<mirrors>
+  <mirror>
+    <id>maven-public</id>
+    <name>maven-public</name>
+    <!--镜像采用配置好的组的地址-->
+    <url>http://106.52.217.40:8081/repository/maven-public/</url>
+    <mirrorOf>central</mirrorOf>
+  </mirror>
+</mirrors>
+</settings>
