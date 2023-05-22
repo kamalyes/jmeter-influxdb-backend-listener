@@ -42,7 +42,7 @@ This plugin can be used while the functional testing and load tests as well.
 
 🚨 The plugin allows 5 errors happened one by one, then plugin will stop importing the results after that! See details in the logs.
 Counter will be refreshed at least you have 4 fails. This is protection to avoid OOM error.
-The option can be configured in the settings (the key name is `influxDBThresholdError` see the [Plugin configuration](https://github.com/kamalyes/jmeter-influxdb-backend-listener/tree/main#plugin-configuration) for the details). You need to be careful with that option and know the hardware resources to store data in the memory.
+The option can be configured in the settings (the key name is `influxDBThresholdError` see the [Plugin configuration](https://github.com/kamalyes/jmeter-influxdb-backend-listener/tree/v2#plugin-configuration) for the details). You need to be careful with that option and know the hardware resources to store data in the memory.
 
 Pleas monitor the elapsed time of the data importing (see logs) to avoid issues with requests sending from JMeter.
 Pay attention on "Sending metrics performance tuning" chapter, see below.
@@ -145,7 +145,7 @@ Let’s explain the plugin fields:
 
 * `influxDBFlushInterval` - its interval to send data to InfluxDB, the default value is 4000 (4 seconds).
 * `influxDBMaxBatchSize` - the max size of the batch with metrics, the default 2000 (2000 items of JMeter results).
-* `influxDBThresholdError` - the error threshold before stopping the import, the default value is 5. (see [Important notes](https://github.com/kamalyes/jmeter-influxdb-backend-listener/tree/main#important-notes) for more detail.)
+* `influxDBThresholdError` - the error threshold before stopping the import, the default value is 5. (see [Important notes](https://github.com/kamalyes/jmeter-influxdb-backend-listener/tree/v2#important-notes) for more detail.)
 * `influxDBBucket` - the InfluxDB bucket name to store the test results.
 * `samplersList` - the regex value to sort out the JMeter samplers results; the default is _`.*`_. For example if you have the pattern of JMeter test plan development like this - create the 'Transaction controller', add inside of the 'Transaction controller' the Sampler with request, and the name pattern '`GET->Something`', like on the see screen below.
 The regex `^(Home Page|Login|Search)(-success|-failure)?$` can be used to save only samplers names. The regex can be generated from JMeter menu.
