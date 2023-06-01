@@ -143,8 +143,7 @@ public class JmeterInfluxDBBackendListenerClient extends AbstractBackendListener
                 sampleResultContext
                         .setErrorBodyToBeSaved(context.getBooleanParameter(KEY_INCLUDE_BODY_OF_FAILURES, false));
                 sampleResultContext.setResponseBodyLength(this.influxDBConfig.getResponseBodyLength());
-                var sampleResultPointProvider = new SampleResultPointProvider(sampleResultContext);
-
+                SampleResultPointProvider sampleResultPointProvider = new SampleResultPointProvider(sampleResultContext);
                 Point resultPoint = sampleResultPointProvider.getPoint();
                 InfluxDatabaseClient.getInstance(this.influxDBConfig, LOGGER).collectData(resultPoint);
             }

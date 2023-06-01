@@ -18,7 +18,7 @@
 Execute below mvn command. Make sure JAVA_HOME is set properly
 
 ```bash
-mvn -B clean package -Dmaven.test.skip=true -X -Dmaven.javadoc.skip=true
+mvn -B clean package -X -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 ```
 
 ## Description
