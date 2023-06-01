@@ -1,5 +1,6 @@
 package io.github.kamalyes.influxdb2.client;
 
+import com.influxdb.LogLevel;
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.write.Point;
 import com.influxdb.client.WriteApiBlocking;
@@ -72,7 +73,6 @@ public class InfluxDatabaseClient {
 
         this.LOGGER.debug("Sending to write");
         this.points.add(point);
-
         this.checkBatchSize();
     }
 
@@ -84,12 +84,10 @@ public class InfluxDatabaseClient {
 
         this.LOGGER.info("The final step ---> importing before closing.");
         this.importData();
-
         this.influxDB.close();
         this.points.clear();
 
         if (instance != null) {
-
             instance = null;
             this.LOGGER.info("Instance of InfluxDatabaseClient has been refreshed!");
         }
@@ -110,7 +108,8 @@ public class InfluxDatabaseClient {
         if (this.errorsAmount.size() >= this.influxDBConfig.getInfluxdbThresholdError()) {
             this.points.clear();
             String skippingMsg = "Importing of the results to Influx DB is skipping since ";
-            this.LOGGER.warn(String.format(skippingMsg, this.influxDBConfig.getInfluxdbThresholdError()," errors, has occurred!"));
+            this.LOGGER.warn(String.format(skippingMsg, this.influxDBConfig.getInfluxdbThresholdError(),
+                    " errors, has occurred!"));
         }
 
         if (!this.points.isEmpty() && this.errorsAmount.size() <= this.influxDBConfig.getInfluxdbThresholdError()) {
@@ -155,12 +154,11 @@ public class InfluxDatabaseClient {
                     this.influxDBConfig.getInfluxToken().toCharArray(),
                     this.influxDBConfig.getInfluxOrganization(),
                     this.influxDBConfig.getInfluxBucket());
-
             this.influxDB.enableGzip();
+            this.influxDB.setLogLevel(LogLevel.BASIC);
             this.writeApi = this.influxDB.getWriteApiBlocking();
-
         } catch (Exception e) {
-            this.LOGGER.error("Failed to create client", e);
+            this.LOGGER.error("Failed to create client" , e);
         }
     }
 
@@ -169,7 +167,6 @@ public class InfluxDatabaseClient {
      */
     private synchronized void checkBatchSize() {
         if (this.points.size() >= this.influxDBConfig.getInfluxdbBatchSize()) {
-
             this.LOGGER.info("Batch size protection has occurred.");
             this.importData();
         }

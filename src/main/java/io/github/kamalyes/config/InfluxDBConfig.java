@@ -1,11 +1,15 @@
 package io.github.kamalyes.config;
 
-import com.influxdb.utils.Arguments;
+import io.github.kamalyes.utils.Arguments;
+
+import lombok.Data;
+
 import org.apache.jmeter.visualizers.backend.BackendListenerContext;
 
 /**
  * Configuration for influxDB.
  */
+@Data
 public class InfluxDBConfig {
 
     /**
@@ -137,7 +141,7 @@ public class InfluxDBConfig {
         String influxDBUrl = context.getParameter(KEY_INFLUX_DB_URL);
         Arguments.checkNonEmpty(influxDBUrl, KEY_INFLUX_DB_URL);
         String[] influxHTTPScheme = influxDBUrl.split("://", 2);
-        ArgsValidator.checkHTTPScheme(influxHTTPScheme[0]);
+        Arguments.checkHTTPScheme(influxHTTPScheme[0]);
         this.setInfluxDBUrl(influxDBUrl);
 
         String influxToken = context.getParameter(KEY_INFLUX_DB_TOKEN);
@@ -168,150 +172,5 @@ public class InfluxDBConfig {
         int responseBodyLength = context.getIntParameter(KEY_RESPONSE_BODY_LENGTH);
         Arguments.checkNotNegativeNumber(influxdbFlushInterval, KEY_RESPONSE_BODY_LENGTH);
         this.setResponseBodyLength(responseBodyLength);
-    }
-
-    /**
-     * Gets the InfluxDB URL.
-     *
-     * @return the InfluxDB URL.
-     */
-    public String getInfluxDBUrl() {
-        return influxDBUrl;
-    }
-
-    /**
-     * Sets influxDB URL.
-     *
-     * @param influxDBUrl the influxdb host url.
-     */
-    public void setInfluxDBUrl(String influxDBUrl) {
-        this.influxDBUrl = influxDBUrl;
-    }
-
-    /**
-     * Gets influxDatabase Bucket.
-     *
-     * @return the influxDatabase Bucket.
-     */
-    public String getInfluxBucket() {
-        return this.influxBucket;
-    }
-
-    /**
-     * Sets influxDatabase.
-     *
-     * @param influxBucket the influxDatabase to set.
-     */
-    public void setInfluxBucket(String influxBucket) {
-        this.influxBucket = influxBucket;
-    }
-
-    /**
-     * Gets the InfluxDB organization.
-     *
-     * @return the InfluxDB organization.
-     */
-    public String getInfluxOrganization() {
-        return influxOrganization;
-    }
-
-    /**
-     * Sets the InfluxDB organization name.
-     *
-     * @param influxOrganization is InfluxDB organization name..
-     */
-    public void setInfluxOrganization(String influxOrganization) {
-        this.influxOrganization = influxOrganization;
-    }
-
-    /**
-     * Gets the InfluxDB token.
-     *
-     * @return InfluxDB token represented in the string.
-     */
-    public String getInfluxToken() {
-        return this.influxToken;
-    }
-
-    /**
-     * Sets the InfluxDB token.
-     *
-     * @param influxToken is InfluxDB token represented in the string.
-     */
-    public void setInfluxToken(String influxToken) {
-        this.influxToken = influxToken;
-    }
-
-    /**
-     * Sets the InfluxDB batch size.
-     *
-     * @param influxdbBatchSize is InfluxDB batch size represented in the int.
-     */
-    public void setInfluxdbBatchSize(int influxdbBatchSize) {
-        this.influxdbBatchSize = influxdbBatchSize;
-    }
-
-    /**
-     * Returns InfluxDB batch size.
-     *
-     * @return InfluxDB batch size represented in the int.
-     */
-    public int getInfluxdbBatchSize() {
-        return influxdbBatchSize;
-    }
-
-    /**
-     * Gets InfluxDB flush interval.
-     *
-     * @return InfluxDB flush interval represented in the int.
-     */
-    public int getInfluxdbFlushInterval() {
-        return influxdbFlushInterval;
-    }
-
-    /**
-     * Sets flush interval.
-     *
-     * @param influxdbFlushInterval is flush interval represented in the int.
-     */
-    public void setInfluxdbFlushInterval(int influxdbFlushInterval) {
-        this.influxdbFlushInterval = influxdbFlushInterval;
-    }
-
-    /**
-     * Sets error threshold.
-     *
-     * @param influxdbThresholdError is the threshold of error to stop sending data
-     *                               to influx db to avoid OOM error.
-     */
-    public void setInfluxdbThresholdError(int influxdbThresholdError) {
-        this.influxdbThresholdError = influxdbThresholdError;
-    }
-
-    /**
-     * Gets threshold error to stop InfluxDB import.
-     *
-     * @return Threshold of error represented in the int.
-     */
-    public int getInfluxdbThresholdError() {
-        return influxdbThresholdError;
-    }
-
-    /**
-     * Gets the response body length.
-     *
-     * @return the response body length.
-     */
-    public int getResponseBodyLength() {
-        return responseBodyLength;
-    }
-
-    /**
-     * Sets the response body length.
-     *
-     * @param responseBodyLength the response body length.
-     */
-    public void setResponseBodyLength(int responseBodyLength) {
-        this.responseBodyLength = responseBodyLength;
     }
 }
